@@ -1,0 +1,4 @@
+{
+    "appService.defaultWebAppToDeploy": "/subscriptions/8b61bbb2-30dc-45eb-9afd-97cb2e4fa64a/AppServices/subscriptions/8b61bbb2-30dc-45eb-9afd-97cb2e4fa64a/resourceGroups/ResourceGroup1/providers/Microsoft.Web/sites/LoansAnalyzerClient",
+    "appService.deploySubpath": "ClientApp"
+}
