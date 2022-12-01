@@ -1,3 +1,4 @@
+using LoansAnalyzerAPI.GoogleProvider;
 using LoansAnalyzerAPI.Users;
 using Microsoft.EntityFrameworkCore;
 
@@ -14,8 +15,8 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.Configure<AppSettings>(
-    builder.Configuration.GetSection("ApplicationSettings"));
+builder.Services.Configure<OAuthProviderSettings>(
+    builder.Configuration.GetSection("OAuthProviderSettings"));
 
 builder.Services.AddCors(opt =>
 {
