@@ -1,4 +1,6 @@
-﻿namespace LoansAnalyzerAPI.Users
+﻿using LoansAnalyzerAPI.Users.UserInfo;
+
+namespace LoansAnalyzerAPI.Users
 {
     public class Client
     {
@@ -6,7 +8,8 @@
         public string Name { get; private set; }
         public string Surname { get; private set; }
         public string Email { get; private set; }
-        private string Password { get; set; }
+        public JobDetails? JobDetails { get; private set; }
+        public GovernmentDocument? GovernmentDocument { get; private set; }
 
         public Client(string name, string surname, string email)
         {

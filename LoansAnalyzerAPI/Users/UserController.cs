@@ -10,52 +10,54 @@ namespace LoansAnalyzerAPI.Users
     [ApiController]
     public class UserController : ControllerBase
     {
-        private readonly UserContext _context;
-        private readonly OAuthProviderSettings _oAuthSettings;
+        private readonly IUserRepository _userRepository;
 
-        public UserController(UserContext context, IOptions<OAuthProviderSettings> settings)
+        public UserController(IUserRepository userRepository)
         {
-            _context = context;
-            _oAuthSettings = settings.Value;
+            _userRepository = userRepository;
         }
 
         [HttpGet]
         public async Task<ActionResult<List<Client>>> GetClients()
         {
-            return Ok(await _context.Clients.ToListAsync());
+            try
+            {
+                var clients = await _userRepository.GetAllClientsAsync();
+                return clients.Count() > 0 ? Ok(clients) : NotFound();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest($"Failed to get Clients: {ex.Message}");
+            }
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<List<Client>>> GetClientByID(Guid id)
+        public async Task<ActionResult<Client>> GetClientByID(Guid id)
         {
-            var user = await _context.Clients.FindAsync(id);
-            if (user == null) return NotFound();
-            return Ok(user);
+            try
+            {
+                var client = await _userRepository.GetClientByIdAsync(id);
+                return client is not null ? Ok(client) : NotFound();
+            }
+            catch(Exception ex)
+            {
+                return BadRequest($"Failed to get Client with Id {id}: {ex.Message}");
+            }
         }
 
 
-        [HttpPut("LoginWithGoogle")]
+        [HttpPost("LoginWithGoogle")]
         public async Task<ActionResult> LoginWithGoogle([FromBody] string credential)
         {
-            var settings = new GoogleJsonWebSignature.ValidationSettings()
+            try
             {
-                Audience = new List<string> { _oAuthSettings.GoogleClientId }
-            };
-
-            var payload = await GoogleJsonWebSignature.ValidateAsync(credential, settings);
-            if (payload.FamilyName == null) // to be fixed in the future
-            {
-                payload.FamilyName = "";
+                var client = await _userRepository.LoginWithGoogle(credential);
+                return Ok(client);
             }
-
-            var client = new Client(payload.GivenName, payload.FamilyName, payload.Email);
-
-
-            // TODO
-            _context.Clients.Add(client);
-            _context.SaveChanges();
-
-            return Ok(client);
+            catch(Exception ex)
+            {
+                return BadRequest($"User login failed: {ex.Message}");
+            }         
         }
     }
 }
