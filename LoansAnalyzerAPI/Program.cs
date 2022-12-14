@@ -1,6 +1,7 @@
 using LoansAnalyzerAPI.GoogleProvider;
 using LoansAnalyzerAPI.OAuthProvider;
 using LoansAnalyzerAPI.Users;
+using LoansAnalyzerAPI.Users.UserInfo;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -12,6 +13,7 @@ builder.Services.AddDbContext<UserContext>(options =>
 });
 
 builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddTransient<ApiHelper>();
 builder.Services.AddTransient<OAuthService>();
 
 builder.Services.AddControllers();

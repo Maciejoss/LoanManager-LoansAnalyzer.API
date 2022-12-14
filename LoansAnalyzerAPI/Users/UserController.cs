@@ -1,7 +1,5 @@
-﻿using Google.Apis.Auth;
-using LoansAnalyzerAPI.GoogleProvider;
+﻿using LoansAnalyzerAPI.GoogleProvider;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 
 namespace LoansAnalyzerAPI.Users
