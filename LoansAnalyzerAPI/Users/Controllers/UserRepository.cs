@@ -66,8 +66,8 @@ namespace LoansAnalyzerAPI.Users.Controllers
         {
             var payload = await _oAuthService.GetPayloadAsync(credential);
             var bankUrl = _config.GetSection("BankApiUrls").GetValue<string>("OurApiUrl");
-            
-            var response = await _httpClient.GetAsync(Path.Combine(bankUrl, "Employee", payload.Email));
+
+            var response = await _httpClient.GetAsync(bankUrl + "/User/Employee/" + payload.Email);
             
             if (!response.IsSuccessStatusCode) return null;
             
