@@ -1,4 +1,4 @@
-﻿namespace LoansAnalyzerAPI.Users.UserInfo
+﻿namespace LoansAnalyzerAPI.Users.Clients.AdditionalData
 {
     public class GovernmentDocument
     {
@@ -16,7 +16,7 @@
             Description = description;
             Number = number;
         }
-
+        
         public GovernmentDocument() { }
     }
 }

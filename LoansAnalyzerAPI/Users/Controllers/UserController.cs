@@ -1,8 +1,7 @@
-﻿using LoansAnalyzerAPI.GoogleProvider;
+﻿using LoansAnalyzerAPI.Users.Clients;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Options;
 
-namespace LoansAnalyzerAPI.Users
+namespace LoansAnalyzerAPI.Users.Controllers
 {
     [Route("[controller]")]
     [ApiController]
@@ -49,8 +48,8 @@ namespace LoansAnalyzerAPI.Users
         {
             try
             {
-                var client = await _userRepository.LoginWithGoogle(credential);
-                return Ok(client);
+                var user = await _userRepository.LoginUserAsync(credential);
+                return Ok(user);
             }
             catch(Exception ex)
             {

@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-namespace LoansAnalyzerAPI.Users.UserInfo
+namespace LoansAnalyzerAPI.Users.Clients.AdditionalData.Controllers
 {
     [Route("[controller]")]
     [ApiController]

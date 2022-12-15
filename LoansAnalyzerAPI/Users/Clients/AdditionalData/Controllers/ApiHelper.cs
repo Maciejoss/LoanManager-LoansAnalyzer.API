@@ -1,7 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using System.Net.Http.Headers;
+﻿using System.Net.Http.Headers;
 
-namespace LoansAnalyzerAPI.Users.UserInfo
+namespace LoansAnalyzerAPI.Users.Clients.AdditionalData.Controllers
 {
     public  class ApiHelper
     {

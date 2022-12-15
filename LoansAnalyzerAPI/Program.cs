@@ -1,7 +1,8 @@
 using LoansAnalyzerAPI.GoogleProvider;
 using LoansAnalyzerAPI.OAuthProvider;
 using LoansAnalyzerAPI.Users;
-using LoansAnalyzerAPI.Users.UserInfo;
+using LoansAnalyzerAPI.Users.Clients.AdditionalData.Controllers;
+using LoansAnalyzerAPI.Users.Controllers;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
