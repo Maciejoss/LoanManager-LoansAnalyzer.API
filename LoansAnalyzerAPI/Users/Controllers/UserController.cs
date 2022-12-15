@@ -48,8 +48,8 @@ namespace LoansAnalyzerAPI.Users.Controllers
         {
             try
             {
-                var client = await _userRepository.LoginWithGoogle(credential);
-                return Ok(client);
+                var user = await _userRepository.LoginUser(credential);
+                return user;
             }
             catch(Exception ex)
             {

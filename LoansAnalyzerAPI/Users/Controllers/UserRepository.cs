@@ -1,5 +1,6 @@
 ﻿using LoansAnalyzerAPI.OAuthProvider;
 using LoansAnalyzerAPI.Users.Clients;
+using LoansAnalyzerAPI.Users.Employees;
 using Microsoft.EntityFrameworkCore;
 
 namespace LoansAnalyzerAPI.Users.Controllers
@@ -24,11 +25,24 @@ namespace LoansAnalyzerAPI.Users.Controllers
         {
             return await _context.Clients.FindAsync(id);
         }
-
-        public async Task<Client> LoginWithGoogle(string credential)
+        
+        public async Task<UserDto> LoginUser(string credential)
+        {
+            var employee = await LoginEmployee(credential);
+            
+            if (employee is not null)
+            {
+                return new UserDto(employee);
+            }
+            
+            var client = await LoginClient(credential);
+            return new UserDto(client);
+        }
+        
+        public async Task<Client> LoginClient(string credential)
         {
             var payload = await _oAuthService.GetPayloadAsync(credential);
-
+            
             var client = await _context.Clients
                   .Where(c => c.Email == payload.Email).FirstOrDefaultAsync();
 
@@ -41,6 +55,13 @@ namespace LoansAnalyzerAPI.Users.Controllers
             }
 
             return client;
+        }
+
+        public Task<Employee> LoginEmployee(string credential)
+        {
+            var payload = await _oAuthService.GetPayloadAsync(credential);
+            // get employee from BANK.API
+            // return client;
         }
 
         public async Task<bool> SaveAsync()
