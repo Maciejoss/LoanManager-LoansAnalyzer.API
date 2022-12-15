@@ -48,8 +48,8 @@ namespace LoansAnalyzerAPI.Users.Controllers
         {
             try
             {
-                var user = await _userRepository.LoginUser(credential);
-                return user;
+                var user = await _userRepository.LoginUserAsync(credential);
+                return Ok(user);
             }
             catch(Exception ex)
             {

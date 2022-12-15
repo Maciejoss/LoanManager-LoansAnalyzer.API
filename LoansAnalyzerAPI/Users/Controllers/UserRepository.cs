@@ -2,6 +2,7 @@
 using LoansAnalyzerAPI.Users.Clients;
 using LoansAnalyzerAPI.Users.Employees;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 
 namespace LoansAnalyzerAPI.Users.Controllers
 {
@@ -9,11 +10,15 @@ namespace LoansAnalyzerAPI.Users.Controllers
     {
         private readonly UserContext _context;
         private readonly OAuthService _oAuthService;
+        private readonly IConfiguration _config;
+        private readonly HttpClient _httpClient;
 
-        public UserRepository(UserContext context, OAuthService oAuthService)
+        public UserRepository(UserContext context, OAuthService oAuthService, IConfiguration configuration)
         {
             _context = context;
             _oAuthService = oAuthService;
+            _config = configuration;
+            _httpClient = new HttpClient();
         }
 
         public async Task<IEnumerable<Client>> GetAllClientsAsync()
@@ -26,20 +31,20 @@ namespace LoansAnalyzerAPI.Users.Controllers
             return await _context.Clients.FindAsync(id);
         }
         
-        public async Task<UserDto> LoginUser(string credential)
+        public async Task<UserDto> LoginUserAsync(string credential)
         {
-            var employee = await LoginEmployee(credential);
+            var employee = await LoginEmployeeAsync(credential);
             
             if (employee is not null)
             {
                 return new UserDto(employee);
             }
             
-            var client = await LoginClient(credential);
+            var client = await LoginClientAsync(credential);
             return new UserDto(client);
         }
         
-        public async Task<Client> LoginClient(string credential)
+        public async Task<Client> LoginClientAsync(string credential)
         {
             var payload = await _oAuthService.GetPayloadAsync(credential);
             
@@ -57,11 +62,17 @@ namespace LoansAnalyzerAPI.Users.Controllers
             return client;
         }
 
-        public Task<Employee> LoginEmployee(string credential)
+        public async Task<Employee?> LoginEmployeeAsync(string credential)
         {
             var payload = await _oAuthService.GetPayloadAsync(credential);
-            // get employee from BANK.API
-            // return client;
+            var bankUrl = _config.GetSection("BankApiUrls").GetValue<string>("OurApiUrl");
+            
+            var response = await _httpClient.GetAsync(Path.Combine(bankUrl, "Employee", payload.Email));
+            
+            if (!response.IsSuccessStatusCode) return null;
+            
+            var responseContent = await response.Content.ReadAsStringAsync();
+            return JsonConvert.DeserializeObject<Employee>(responseContent);
         }
 
         public async Task<bool> SaveAsync()

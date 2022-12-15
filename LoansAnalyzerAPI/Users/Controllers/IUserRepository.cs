@@ -9,8 +9,8 @@ namespace LoansAnalyzerAPI.Users.Controllers
         Task<IEnumerable<Client>> GetAllClientsAsync();
         Task<Client?> GetClientByIdAsync(Guid id);
         Task<bool> SaveAsync();
-        Task<Client> LoginClient(string credential);
-        Task<Employee> LoginEmployee(string credential);
-        Task<ActionResult> LoginUser(string credential);
+        Task<Client> LoginClientAsync(string credential);
+        Task<Employee?> LoginEmployeeAsync(string credential);
+        Task<UserDto> LoginUserAsync(string credential);
     }
 }
