@@ -11,6 +11,7 @@ namespace LoansAnalyzerAPI.Users
         public string Surname { get; private set; }
         public string Email { get; private set; }
         public UserType userClaims { get; private set; }
+        public bool isAuthenticated { get; private set; }
 
         public UserDto(Employee employee)
         {
@@ -19,6 +20,7 @@ namespace LoansAnalyzerAPI.Users
             Surname = employee.Surname;
             Email = employee.Email;
             userClaims = UserType.BankEmployee;
+            isAuthenticated = true;
         }
 
         public UserDto(Client client)
@@ -28,6 +30,7 @@ namespace LoansAnalyzerAPI.Users
             Surname = client.Surname;
             Email = client.Email;
             userClaims = UserType.Client;
+            isAuthenticated = true;
         }
     }
 }

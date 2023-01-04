@@ -42,7 +42,6 @@ namespace LoansAnalyzerAPI.Users.Controllers
             }
         }
 
-
         [HttpPost("LoginWithGoogle")]
         public async Task<ActionResult> LoginWithGoogle([FromBody] string credential)
         {
