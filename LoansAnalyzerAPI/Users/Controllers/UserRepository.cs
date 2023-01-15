@@ -1,4 +1,5 @@
 ﻿using LoansAnalyzerAPI.OAuthProvider;
+using LoansAnalyzerAPI.Security;
 using LoansAnalyzerAPI.Users.Clients;
 using LoansAnalyzerAPI.Users.Employees;
 using Microsoft.EntityFrameworkCore;
@@ -10,13 +11,18 @@ namespace LoansAnalyzerAPI.Users.Controllers
     {
         private readonly UserContext _context;
         private readonly OAuthService _oAuthService;
+        private readonly JwtTokenService _jwtTokenService;
         private readonly IConfiguration _config;
         private readonly HttpClient _httpClient;
 
-        public UserRepository(UserContext context, OAuthService oAuthService, IConfiguration configuration)
+        public UserRepository(UserContext context,
+            OAuthService oAuthService,
+            JwtTokenService jwtTokenService,
+            IConfiguration configuration)
         {
             _context = context;
             _oAuthService = oAuthService;
+            _jwtTokenService = jwtTokenService;
             _config = configuration;
             _httpClient = new HttpClient();
         }
@@ -34,14 +40,21 @@ namespace LoansAnalyzerAPI.Users.Controllers
         public async Task<UserDto> LoginUserAsync(string credential)
         {
             var employee = await LoginEmployeeAsync(credential);
+
+            UserDto user;
             
             if (employee is not null)
             {
-                return new UserDto(employee);
+                user = new UserDto(employee);
+            }
+            else
+            {
+                var client = await LoginClientAsync(credential);
+                user = new UserDto(client);
             }
             
-            var client = await LoginClientAsync(credential);
-            return new UserDto(client);
+            user.BearerToken = _jwtTokenService.BuildJwtToken(user.Name);
+            return user;
         }
         
         public async Task<Client> LoginClientAsync(string credential)

@@ -10,8 +10,9 @@ namespace LoansAnalyzerAPI.Users
         public string Name { get; private set; }
         public string Surname { get; private set; }
         public string Email { get; private set; }
-        public UserType userClaims { get; private set; }
-        public bool isAuthenticated { get; private set; }
+        public UserType UserClaims { get; private set; }
+        public bool IsAuthenticated { get; private set; }
+        public string BearerToken { get; set; }
 
         public UserDto(Employee employee)
         {
@@ -19,8 +20,8 @@ namespace LoansAnalyzerAPI.Users
             Name = employee.Name;
             Surname = employee.Surname;
             Email = employee.Email;
-            userClaims = UserType.BankEmployee;
-            isAuthenticated = true;
+            UserClaims = UserType.BankEmployee;
+            IsAuthenticated = true;
         }
 
         public UserDto(Client client)
@@ -29,8 +30,8 @@ namespace LoansAnalyzerAPI.Users
             Name = client.Name;
             Surname = client.Surname;
             Email = client.Email;
-            userClaims = UserType.Client;
-            isAuthenticated = true;
+            UserClaims = UserType.Client;
+            IsAuthenticated = true;
         }
     }
 }
