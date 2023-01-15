@@ -1,8 +1,9 @@
-﻿using LoansAnalyzerAPI.Users.Clients;
+﻿using LoansAnalyzerAPI.DTOs;
+using LoansAnalyzerAPI.Users.Clients;
 using LoansAnalyzerAPI.Users.Employees;
 using Microsoft.AspNetCore.Mvc;
 
-namespace LoansAnalyzerAPI.Users.Controllers
+namespace LoansAnalyzerAPI.Controllers.Repositories.Interfaces
 {
     public interface IUserRepository
     {

@@ -1,9 +1,13 @@
+using LoansAnalyzerAPI;
+using LoansAnalyzerAPI.Controllers;
+using LoansAnalyzerAPI.Controllers.Repositories;
+using LoansAnalyzerAPI.Controllers.Repositories.Interfaces;
 using LoansAnalyzerAPI.GoogleProvider;
 using LoansAnalyzerAPI.OAuthProvider;
 using LoansAnalyzerAPI.Users;
 using LoansAnalyzerAPI.Users.Clients.AdditionalData.Controllers;
-using LoansAnalyzerAPI.Users.Controllers;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,6 +17,9 @@ builder.Services.AddDbContext<UserContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
 
+builder.Services.AddHttpClient();
+builder.Services.AddScoped<IInquiryRepository, InquiryRepository>();
+builder.Services.AddScoped<IOfferRepository, OfferRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddTransient<ApiHelper>();
 builder.Services.AddTransient<OAuthService>();
@@ -21,6 +28,9 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+builder.Services.Configure<ControllersSettings>(
+    builder.Configuration.GetSection("BankApiUrls"));
 
 builder.Services.Configure<OAuthProviderSettings>(
     builder.Configuration.GetSection("OAuthProviderSettings"));

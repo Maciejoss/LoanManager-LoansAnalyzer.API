@@ -2,7 +2,7 @@
 using LoansAnalyzerAPI.Users.Clients;
 using LoansAnalyzerAPI.Users.Employees;
 
-namespace LoansAnalyzerAPI.Users
+namespace LoansAnalyzerAPI.DTOs
 {
     public class UserDto
     {

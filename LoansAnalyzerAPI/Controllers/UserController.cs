@@ -1,7 +1,8 @@
-﻿using LoansAnalyzerAPI.Users.Clients;
+﻿using LoansAnalyzerAPI.Controllers.Repositories.Interfaces;
+using LoansAnalyzerAPI.Users.Clients;
 using Microsoft.AspNetCore.Mvc;
 
-namespace LoansAnalyzerAPI.Users.Controllers
+namespace LoansAnalyzerAPI.Controllers
 {
     [Route("[controller]")]
     [ApiController]
@@ -36,7 +37,7 @@ namespace LoansAnalyzerAPI.Users.Controllers
                 var client = await _userRepository.GetClientByIdAsync(id);
                 return client is not null ? Ok(client) : NotFound();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return BadRequest($"Failed to get Client with Id {id}: {ex.Message}");
             }
@@ -51,10 +52,10 @@ namespace LoansAnalyzerAPI.Users.Controllers
                 var user = await _userRepository.LoginUserAsync(credential);
                 return Ok(user);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return BadRequest($"User login failed: {ex.Message}");
-            }         
+            }
         }
     }
 }

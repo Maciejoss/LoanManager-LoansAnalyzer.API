@@ -1,9 +1,9 @@
 ﻿using LoansAnalyzerAPI.Users.Clients;
 using Microsoft.EntityFrameworkCore;
 
-namespace LoansAnalyzerAPI.Users.Controllers
+namespace LoansAnalyzerAPI
 {
-    public class UserContext: DbContext
+    public class UserContext : DbContext
     {
         public UserContext(DbContextOptions<UserContext> options) : base(options) { }
 
