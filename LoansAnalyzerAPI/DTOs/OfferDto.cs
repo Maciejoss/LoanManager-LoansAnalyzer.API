@@ -1,4 +1,4 @@
-﻿using LoansAnalyzerAPI.Users.Employees;
+﻿using LoansAnalyzerAPI.Models.Employees;
 
 namespace LoansAnalyzerAPI.DTOs
 {

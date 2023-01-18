@@ -1,13 +1,13 @@
-using LoansAnalyzerAPI;
 using LoansAnalyzerAPI.Controllers;
 using LoansAnalyzerAPI.Controllers.Repositories;
 using LoansAnalyzerAPI.Controllers.Repositories.Interfaces;
-using LoansAnalyzerAPI.GoogleProvider;
+using System.Text;
+using LoansAnalyzerAPI.Models.Clients.AdditionalData.Controllers;
 using LoansAnalyzerAPI.OAuthProvider;
-using LoansAnalyzerAPI.Users;
-using LoansAnalyzerAPI.Users.Clients.AdditionalData.Controllers;
+using LoansAnalyzerAPI.Security;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -23,6 +23,7 @@ builder.Services.AddScoped<IOfferRepository, OfferRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddTransient<ApiHelper>();
 builder.Services.AddTransient<OAuthService>();
+builder.Services.AddTransient<JwtTokenService>();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -34,6 +35,28 @@ builder.Services.Configure<ControllersSettings>(
 
 builder.Services.Configure<OAuthProviderSettings>(
     builder.Configuration.GetSection("OAuthProviderSettings"));
+builder.Services.Configure<JwtSettings>(
+    builder.Configuration.GetSection("JwtToken"));
+
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultAuthenticateScheme = "JwtBearer";
+    options.DefaultChallengeScheme = "JwtBearer";
+}).AddJwtBearer("JwtBearer", options =>
+{
+    options.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuerSigningKey = true,
+        IssuerSigningKey = new SymmetricSecurityKey(
+            Encoding.UTF8.GetBytes(builder.Configuration.GetValue<string>("JwtToken:Key"))),
+        ValidateIssuer = true,
+        ValidIssuer = builder.Configuration.GetValue<string>("JwtToken:Issuer"),
+        ValidateAudience = true,
+        ValidAudience = builder.Configuration.GetValue<string>("JwtToken:Audience"),
+        ValidateLifetime = true,
+        ClockSkew = TimeSpan.FromSeconds(builder.Configuration.GetValue<int>("JwtToken:LifetimeInSeconds"))
+    };
+});
 
 builder.Services.AddCors(opt =>
 {
@@ -58,6 +81,8 @@ if (app.Environment.IsDevelopment())
 app.UseCors("CorsPolicy");
 
 app.UseHttpsRedirection();
+
+// app.UseAuthentication();
 
 app.UseAuthorization();
 

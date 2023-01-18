@@ -1,7 +1,6 @@
 ﻿using LoansAnalyzerAPI.DTOs;
-using LoansAnalyzerAPI.Users.Clients;
-using LoansAnalyzerAPI.Users.Employees;
-using Microsoft.AspNetCore.Mvc;
+using LoansAnalyzerAPI.Models.Clients;
+using LoansAnalyzerAPI.Models.Employees;
 
 namespace LoansAnalyzerAPI.Controllers.Repositories.Interfaces
 {

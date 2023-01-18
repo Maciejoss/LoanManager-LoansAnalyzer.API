@@ -1,6 +1,6 @@
 ﻿using LoansAnalyzerAPI.Enums;
-using LoansAnalyzerAPI.Users.Clients;
-using LoansAnalyzerAPI.Users.Employees;
+using LoansAnalyzerAPI.Models.Clients;
+using LoansAnalyzerAPI.Models.Employees;
 
 namespace LoansAnalyzerAPI.DTOs
 {
@@ -10,7 +10,9 @@ namespace LoansAnalyzerAPI.DTOs
         public string Name { get; private set; }
         public string Surname { get; private set; }
         public string Email { get; private set; }
-        public UserType userClaims { get; private set; }
+        public UserType UserClaims { get; private set; }
+        public bool IsAuthenticated { get; private set; }
+        public string BearerToken { get; set; }
 
         public UserDto(Employee employee)
         {
@@ -18,7 +20,8 @@ namespace LoansAnalyzerAPI.DTOs
             Name = employee.Name;
             Surname = employee.Surname;
             Email = employee.Email;
-            userClaims = UserType.BankEmployee;
+            UserClaims = UserType.BankEmployee;
+            IsAuthenticated = true;
         }
 
         public UserDto(Client client)
@@ -27,7 +30,8 @@ namespace LoansAnalyzerAPI.DTOs
             Name = client.Name;
             Surname = client.Surname;
             Email = client.Email;
-            userClaims = UserType.Client;
+            UserClaims = UserType.Client;
+            IsAuthenticated = true;
         }
     }
 }

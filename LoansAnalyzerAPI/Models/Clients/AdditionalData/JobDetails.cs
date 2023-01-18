@@ -1,4 +1,4 @@
-﻿namespace LoansAnalyzerAPI.Users.Clients.AdditionalData
+﻿namespace LoansAnalyzerAPI.Models.Clients.AdditionalData
 {
     public class JobDetails
     {

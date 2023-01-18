@@ -1,8 +1,9 @@
 ﻿using LoansAnalyzerAPI.Controllers.Repositories.Interfaces;
 using LoansAnalyzerAPI.DTOs;
+using LoansAnalyzerAPI.Models.Clients;
+using LoansAnalyzerAPI.Models.Employees;
 using LoansAnalyzerAPI.OAuthProvider;
-using LoansAnalyzerAPI.Users.Clients;
-using LoansAnalyzerAPI.Users.Employees;
+using LoansAnalyzerAPI.Security;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 
@@ -12,13 +13,18 @@ namespace LoansAnalyzerAPI.Controllers.Repositories
     {
         private readonly UserContext _context;
         private readonly OAuthService _oAuthService;
+        private readonly JwtTokenService _jwtTokenService;
         private readonly IConfiguration _config;
         private readonly HttpClient _httpClient;
 
-        public UserRepository(UserContext context, OAuthService oAuthService, IConfiguration configuration)
+        public UserRepository(UserContext context,
+            OAuthService oAuthService,
+            JwtTokenService jwtTokenService,
+            IConfiguration configuration)
         {
             _context = context;
             _oAuthService = oAuthService;
+            _jwtTokenService = jwtTokenService;
             _config = configuration;
             _httpClient = new HttpClient();
         }
@@ -32,30 +38,37 @@ namespace LoansAnalyzerAPI.Controllers.Repositories
         {
             return await _context.Clients.FindAsync(id);
         }
-
+        
         public async Task<UserDto> LoginUserAsync(string credential)
         {
             var employee = await LoginEmployeeAsync(credential);
 
+            UserDto user;
+            
             if (employee is not null)
             {
-                return new UserDto(employee);
+                user = new UserDto(employee);
             }
-
-            var client = await LoginClientAsync(credential);
-            return new UserDto(client);
+            else
+            {
+                var client = await LoginClientAsync(credential);
+                user = new UserDto(client);
+            }
+            
+            user.BearerToken = _jwtTokenService.BuildJwtToken(user.Name);
+            return user;
         }
-
+        
         public async Task<Client> LoginClientAsync(string credential)
         {
             var payload = await _oAuthService.GetPayloadAsync(credential);
-
+            
             var client = await _context.Clients
                   .Where(c => c.Email == payload.Email).FirstOrDefaultAsync();
 
             if (client is null)
             {
-                client = new Client(payload.GivenName, payload.FamilyName ?? "", payload.Email);
+                client = new Client(payload.GivenName, payload.FamilyName?? "", payload.Email);
 
                 await _context.Clients.AddAsync(client);
                 await SaveAsync();
@@ -70,9 +83,9 @@ namespace LoansAnalyzerAPI.Controllers.Repositories
             var bankUrl = _config.GetSection("BankApiUrls").GetValue<string>("OurApiUrl");
 
             var response = await _httpClient.GetAsync(bankUrl + "/User/Employee/" + payload.Email);
-
+            
             if (!response.IsSuccessStatusCode) return null;
-
+            
             var responseContent = await response.Content.ReadAsStringAsync();
             return JsonConvert.DeserializeObject<Employee>(responseContent);
         }

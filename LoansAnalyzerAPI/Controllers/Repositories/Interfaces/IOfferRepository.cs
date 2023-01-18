@@ -1,5 +1,4 @@
-﻿using Bank.API.DTOs;
-using LoansAnalyzerAPI.DTOs;
+﻿using LoansAnalyzerAPI.DTOs;
 
 namespace LoansAnalyzerAPI.Controllers.Repositories.Interfaces
 {

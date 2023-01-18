@@ -1,4 +1,4 @@
-﻿namespace LoansAnalyzerAPI.GoogleProvider
+﻿namespace LoansAnalyzerAPI.OAuthProvider
 {
     public class OAuthProviderSettings
     {

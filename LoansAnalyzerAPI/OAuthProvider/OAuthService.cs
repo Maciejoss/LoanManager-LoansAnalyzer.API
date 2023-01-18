@@ -1,5 +1,4 @@
 ﻿using Google.Apis.Auth;
-using LoansAnalyzerAPI.GoogleProvider;
 using Microsoft.Extensions.Options;
 
 namespace LoansAnalyzerAPI.OAuthProvider

@@ -1,6 +1,6 @@
 ﻿using System.Net.Http.Headers;
 
-namespace LoansAnalyzerAPI.Users.Clients.AdditionalData.Controllers
+namespace LoansAnalyzerAPI.Models.Clients.AdditionalData.Controllers
 {
     public  class ApiHelper
     {

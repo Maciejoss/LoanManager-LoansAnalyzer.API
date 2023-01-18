@@ -1,5 +1,4 @@
-﻿using Bank.API.DTOs;
-using LoansAnalyzerAPI.Controllers.Repositories.Interfaces;
+﻿using LoansAnalyzerAPI.Controllers.Repositories.Interfaces;
 using LoansAnalyzerAPI.DTOs;
 using Microsoft.AspNetCore.Mvc;
 

@@ -1,6 +1,5 @@
 ﻿using LoansAnalyzerAPI.Controllers.Repositories.Interfaces;
 using LoansAnalyzerAPI.DTOs;
-using LoansAnalyzerAPI.GoogleProvider;
 using Microsoft.Extensions.Options;
 
 namespace LoansAnalyzerAPI.Controllers.Repositories

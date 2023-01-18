@@ -1,7 +1,8 @@
-﻿using LoansAnalyzerAPI.Users.Clients;
+﻿using LoansAnalyzerAPI.Models.Clients;
 using Microsoft.EntityFrameworkCore;
 
-namespace LoansAnalyzerAPI
+namespace LoansAnalyzerAPI.Controllers
+
 {
     public class UserContext : DbContext
     {

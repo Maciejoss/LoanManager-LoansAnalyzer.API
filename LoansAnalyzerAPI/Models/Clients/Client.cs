@@ -1,6 +1,6 @@
-﻿using LoansAnalyzerAPI.Users.Clients.AdditionalData;
+﻿using LoansAnalyzerAPI.Models.Clients.AdditionalData;
 
-namespace LoansAnalyzerAPI.Users.Clients
+namespace LoansAnalyzerAPI.Models.Clients
 {
     public class Client
     {

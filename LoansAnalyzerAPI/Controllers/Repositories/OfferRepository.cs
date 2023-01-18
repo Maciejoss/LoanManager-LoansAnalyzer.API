@@ -1,7 +1,5 @@
-﻿using Bank.API.DTOs;
-using LoansAnalyzerAPI.Controllers.Repositories.Interfaces;
+﻿using LoansAnalyzerAPI.Controllers.Repositories.Interfaces;
 using LoansAnalyzerAPI.DTOs;
-using LoansAnalyzerAPI.Users.Employees;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;

@@ -1,5 +1,5 @@
 ﻿using LoansAnalyzerAPI.Controllers.Repositories.Interfaces;
-using LoansAnalyzerAPI.Users.Clients;
+using LoansAnalyzerAPI.Models.Clients;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LoansAnalyzerAPI.Controllers
@@ -42,7 +42,6 @@ namespace LoansAnalyzerAPI.Controllers
                 return BadRequest($"Failed to get Client with Id {id}: {ex.Message}");
             }
         }
-
 
         [HttpPost("LoginWithGoogle")]
         public async Task<ActionResult> LoginWithGoogle([FromBody] string credential)

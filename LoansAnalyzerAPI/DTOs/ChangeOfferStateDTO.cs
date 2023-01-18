@@ -1,6 +1,4 @@
-﻿using LoansAnalyzerAPI.DTOs;
-
-namespace Bank.API.DTOs
+﻿namespace LoansAnalyzerAPI.DTOs
 {
     public class ChangeOfferStateDTO
     {

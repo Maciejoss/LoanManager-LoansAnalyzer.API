@@ -1,4 +1,4 @@
-﻿namespace LoansAnalyzerAPI.Users.Employees
+﻿namespace LoansAnalyzerAPI.Models.Employees
 {
     public class Employee
     {
