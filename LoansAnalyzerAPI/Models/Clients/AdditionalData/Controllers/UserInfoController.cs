@@ -1,8 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-
-namespace LoansAnalyzerAPI.Users.Clients.AdditionalData.Controllers
+namespace LoansAnalyzerAPI.Models.Clients.AdditionalData.Controllers
 {
     [Route("[controller]")]
     [ApiController]
@@ -15,7 +14,7 @@ namespace LoansAnalyzerAPI.Users.Clients.AdditionalData.Controllers
             _apiHelper = apiHelper;
         }
 
-        [Authorize]
+  //      [Authorize]
         [HttpGet("JobTypes")]
         public async Task<ActionResult<string>> GetJobTypes()
         {
@@ -28,7 +27,7 @@ namespace LoansAnalyzerAPI.Users.Clients.AdditionalData.Controllers
             throw new Exception(response.ReasonPhrase);
         }
 
-        [Authorize]
+ //       [Authorize]
         [HttpGet("GovernmentDocumentTypes")]
         public async Task<ActionResult<string>> GetGovernmentDocumentTypes()
         {

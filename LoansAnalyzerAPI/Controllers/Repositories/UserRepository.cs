@@ -1,11 +1,13 @@
-﻿using LoansAnalyzerAPI.OAuthProvider;
+﻿using LoansAnalyzerAPI.Controllers.Repositories.Interfaces;
+using LoansAnalyzerAPI.DTOs;
+using LoansAnalyzerAPI.Models.Clients;
+using LoansAnalyzerAPI.Models.Employees;
+using LoansAnalyzerAPI.OAuthProvider;
 using LoansAnalyzerAPI.Security;
-using LoansAnalyzerAPI.Users.Clients;
-using LoansAnalyzerAPI.Users.Employees;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 
-namespace LoansAnalyzerAPI.Users.Controllers
+namespace LoansAnalyzerAPI.Controllers.Repositories
 {
     public class UserRepository : IUserRepository
     {

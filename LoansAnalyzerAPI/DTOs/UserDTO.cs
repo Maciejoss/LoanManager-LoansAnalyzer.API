@@ -1,8 +1,8 @@
 ﻿using LoansAnalyzerAPI.Enums;
-using LoansAnalyzerAPI.Users.Clients;
-using LoansAnalyzerAPI.Users.Employees;
+using LoansAnalyzerAPI.Models.Clients;
+using LoansAnalyzerAPI.Models.Employees;
 
-namespace LoansAnalyzerAPI.Users
+namespace LoansAnalyzerAPI.DTOs
 {
     public class UserDto
     {
