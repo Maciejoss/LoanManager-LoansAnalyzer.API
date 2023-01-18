@@ -58,7 +58,20 @@ namespace LoansAnalyzerAPI.Controllers.Repositories
             user.BearerToken = _jwtTokenService.BuildJwtToken(user.Name);
             return user;
         }
-        
+
+        public async Task SaveClientDataAsync(ClientDto clientInfo)
+        {
+            var client = await _context.Clients.SingleOrDefaultAsync(x => x.Id == clientInfo.Id);
+            if (client is not null)
+            {
+                client.Name = clientInfo.Name;
+                client.Surname = clientInfo.Surname;
+                client.BirthDate = clientInfo.BirthDate;
+                client.GovernmentDocument = clientInfo.GovernmentDocument;
+                client.JobDetails = clientInfo.JobDetails;
+            }
+        }
+
         public async Task<Client> LoginClientAsync(string credential)
         {
             var payload = await _oAuthService.GetPayloadAsync(credential);

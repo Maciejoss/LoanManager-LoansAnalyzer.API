@@ -5,11 +5,12 @@ namespace LoansAnalyzerAPI.Models.Clients
     public class Client
     {
         public Guid Id { get; set; }
-        public string Name { get; private set; }
-        public string Surname { get; private set; }
-        public string Email { get; private set; }
-        public JobDetails? JobDetails { get; private set; }
-        public GovernmentDocument? GovernmentDocument { get; private set; }
+        public string Name { get; set; }
+        public string Surname { get; set; }
+        public string Email { get; set; }
+        public DateTime BirthDate { get; set; }
+        public JobDetails? JobDetails { get;  set; }
+        public GovernmentDocument? GovernmentDocument { get; set; }
 
         public Client(string name, string surname, string email)
         {
