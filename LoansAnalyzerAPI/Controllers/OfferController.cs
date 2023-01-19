@@ -50,7 +50,7 @@ namespace LoansAnalyzerAPI.Controllers
             try
             {
                 var documentUrl = await _offerRepository.GetDocumentAsync(id);
-                return documentUrl != string.Empty ? NoContent() : Ok(documentUrl);
+                return documentUrl == string.Empty ? NoContent() : Ok(documentUrl);
             }
             catch (Exception ex)
             {
