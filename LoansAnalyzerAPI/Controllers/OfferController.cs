@@ -26,21 +26,49 @@ namespace LoansAnalyzerAPI.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest($"Failed to get Inquiries: {ex.Message}");
+                return BadRequest($"Failed to get Offers: {ex.Message}");
             }
         }
         
-        [HttpGet]
+        [HttpGet("{id}")]
+        public async Task<ActionResult<OfferDto>> GetOffer(int id)
+        {
+            try
+            {
+                var offer = await _offerRepository.GetOfferAsync(id);
+                return offer;
+            }
+            catch (Exception ex)
+            {
+                return BadRequest($"Failed to get Offer: {ex.Message}");
+            }
+        }
+        
+        [HttpGet("{id}/document")]
         public async Task<ActionResult<string>> GetOfferDocument(int id)
         {
             try
             {
-                var documentUrl = await _offerRepository.GetDocument(id);
+                var documentUrl = await _offerRepository.GetDocumentAsync(id);
                 return documentUrl != string.Empty ? NoContent() : Ok(documentUrl);
             }
             catch (Exception ex)
             {
-                return BadRequest($"Failed to get Inquiries: {ex.Message}");
+                return BadRequest($"Failed to get document: {ex.Message}");
+            }
+        }
+        
+        [HttpPost("{id}/document")]
+        public async Task<ActionResult> SaveDocument([FromForm] DocumentDto document)
+        {
+            try
+            {
+                await _offerRepository.SaveDocument(document.OfferId, document);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest($"Failed to save document: {ex.Message}");
             }
         }
 

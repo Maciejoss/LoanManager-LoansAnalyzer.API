@@ -29,7 +29,18 @@ namespace LoansAnalyzerAPI.Controllers.Repositories
             return offers;
         }
 
-        public async Task<string> GetDocument(int id)
+        public async Task<OfferDto> GetOfferAsync(int id)
+        {
+            OfferDto? offer = null;
+            HttpResponseMessage response = await _client.GetAsync(_settings.OurApiUrl + $"/Offer{id}");
+            if (response.IsSuccessStatusCode)
+            {
+                offer = await response.Content.ReadFromJsonAsync<OfferDto>();
+            }
+            return offer;
+        }
+
+        public async Task<string> GetDocumentAsync(int id)
         {
             string documentUrl = string.Empty;
             HttpResponseMessage response = await _client.GetAsync(_settings.OurApiUrl + $"/Offer/{id}/document");
@@ -47,6 +58,12 @@ namespace LoansAnalyzerAPI.Controllers.Repositories
             HttpResponseMessage response = await _client.PostAsync(_settings.OurApiUrl + "/Offer/Change/State", httpContent);
             if (response.IsSuccessStatusCode) return true;
             return false;
+        }
+
+        public async Task SaveDocument(int offerId, DocumentDto document)
+        {
+            var streamContent = new StreamContent(document.Content.OpenReadStream());
+            HttpResponseMessage response = await _client.PostAsync(_settings.OurApiUrl + $"/Offer/{offerId}/document", streamContent);
         }
     }
 }
