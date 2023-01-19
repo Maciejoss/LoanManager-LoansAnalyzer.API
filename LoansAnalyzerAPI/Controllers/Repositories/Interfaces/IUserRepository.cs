@@ -12,5 +12,6 @@ namespace LoansAnalyzerAPI.Controllers.Repositories.Interfaces
         Task<Client> LoginClientAsync(string credential);
         Task<Employee?> LoginEmployeeAsync(string credential);
         Task<UserDto> LoginUserAsync(string credential);
+        Task SaveClientDataAsync(ClientDto clientInfo);
     }
 }

@@ -29,6 +29,17 @@ namespace LoansAnalyzerAPI.Controllers.Repositories
             return offers;
         }
 
+        public async Task<string> GetDocument(int id)
+        {
+            string documentUrl = string.Empty;
+            HttpResponseMessage response = await _client.GetAsync(_settings.OurApiUrl + $"/Offer/{id}/document");
+            if (response.IsSuccessStatusCode)
+            {
+                documentUrl = await response.Content.ReadAsStringAsync();
+            }
+            return documentUrl;
+        }
+
         public async Task<bool> ChangeOfferState(ChangeOfferStateDTO changeOfferStateDTO)
         {
             string json = JsonConvert.SerializeObject(changeOfferStateDTO);

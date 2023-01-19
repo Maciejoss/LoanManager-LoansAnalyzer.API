@@ -1,4 +1,5 @@
 ﻿using LoansAnalyzerAPI.Controllers.Repositories.Interfaces;
+using LoansAnalyzerAPI.DTOs;
 using LoansAnalyzerAPI.Models.Clients;
 using Microsoft.AspNetCore.Mvc;
 
@@ -54,6 +55,20 @@ namespace LoansAnalyzerAPI.Controllers
             catch (Exception ex)
             {
                 return BadRequest($"User login failed: {ex.Message}");
+            }
+        }
+
+        [HttpPost("{id}/additionalInfo")]
+        public async Task<ActionResult> FillUserData([FromBody] ClientDto clientData)
+        {
+            try
+            {
+                await _userRepository.SaveClientDataAsync(clientData);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest($"Data save failed: {ex.Message}");
             }
         }
     }
