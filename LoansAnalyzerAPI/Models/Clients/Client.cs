@@ -1,4 +1,5 @@
 ﻿using LoansAnalyzerAPI.Models.Clients.AdditionalData;
+using System.Text.Json.Serialization;
 
 namespace LoansAnalyzerAPI.Models.Clients
 {
@@ -12,12 +13,24 @@ namespace LoansAnalyzerAPI.Models.Clients
         public JobDetails? JobDetails { get;  set; }
         public GovernmentDocument? GovernmentDocument { get; set; }
 
+        [JsonConstructor]
         public Client(string name, string surname, string email)
         {
             Id = Guid.NewGuid();
             Name = name;
             Surname = surname;
             Email = email;
+        }
+
+        public Client(Guid id, string name, string surname, string email, DateTime birthDate, JobDetails jobDetails, GovernmentDocument governmentDocument)
+        {
+            Id = id;
+            Name = name;
+            Surname = surname;
+            Email = email;
+            BirthDate = birthDate;
+            JobDetails = jobDetails;
+            GovernmentDocument = governmentDocument;
         }
     }
 }

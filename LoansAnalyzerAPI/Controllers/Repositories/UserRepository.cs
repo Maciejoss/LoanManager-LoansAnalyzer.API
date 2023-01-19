@@ -31,12 +31,12 @@ namespace LoansAnalyzerAPI.Controllers.Repositories
 
         public async Task<IEnumerable<Client>> GetAllClientsAsync()
         {
-            return await _context.Clients.ToListAsync();
+            return await _context.Clients.Include(c => c.JobDetails).Include(c => c.GovernmentDocument).ToListAsync();
         }
 
         public async Task<Client?> GetClientByIdAsync(Guid id)
         {
-            return await _context.Clients.FindAsync(id);
+            return await _context.Clients.Where((c)=>c.Id == id).Include(c => c.JobDetails).Include(c => c.GovernmentDocument).FirstOrDefaultAsync();
         }
         
         public async Task<UserDto> LoginUserAsync(string credential)
@@ -70,6 +70,7 @@ namespace LoansAnalyzerAPI.Controllers.Repositories
                 client.GovernmentDocument = clientInfo.GovernmentDocument;
                 client.JobDetails = clientInfo.JobDetails;
             }
+            _context.SaveChanges();
         }
 
         public async Task<Client> LoginClientAsync(string credential)
