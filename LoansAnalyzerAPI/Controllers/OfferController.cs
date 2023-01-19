@@ -71,6 +71,20 @@ namespace LoansAnalyzerAPI.Controllers
                 return BadRequest($"Failed to save document: {ex.Message}");
             }
         }
+        
+        [HttpGet]
+        public async Task<ActionResult<string>> GetOfferDocument(int id)
+        {
+            try
+            {
+                var documentUrl = await _offerRepository.GetDocument(id);
+                return documentUrl != string.Empty ? NoContent() : Ok(documentUrl);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest($"Failed to get Inquiries: {ex.Message}");
+            }
+        }
 
         [HttpPost("Change/State")]
         public async Task<ActionResult> ChangeOfferState([FromBody] ChangeOfferStateDTO changeOfferStateDTO)
