@@ -1,4 +1,5 @@
-﻿using LoansAnalyzerAPI.Models.Clients.AdditionalData;
+﻿using LoansAnalyzerAPI.Models.Clients;
+using LoansAnalyzerAPI.Models.Clients.AdditionalData;
 
 namespace LoansAnalyzerAPI.DTOs
 {
@@ -13,5 +14,10 @@ namespace LoansAnalyzerAPI.DTOs
         public GovernmentDocument? GovernmentDocument { get; set; }
 
         public ClientDto() {}
+
+        public Client GetClient()
+        {
+            return new Client(Id,Name,Surname,Email,BirthDate,JobDetails,GovernmentDocument);
+        }
     }
 }
